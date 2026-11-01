@@ -1,0 +1,41 @@
+PRO MOD MATERIALS 0.2.2 — RECIPE REFERENCE
+Minecraft Java 1.21.11 / Fabric
+
+COPPER WIRE (shapeless, 2x2 or 3x3)
+1 copper ingot + 1 pair of shears -> 2 copper wires.
+Shears stay in the grid, lose 1 durability, and break when exhausted.
+Unbreakable shears do not lose durability.
+
+ELECTRIC PRESS (3x3)
+wire   | zinc     | wire
+iron   | platinum | iron
+planks | iron     | planks
+2 wires, 1 zinc ingot, 1 platinum ingot, 3 iron ingots, 2 planks.
+
+COAL PRESS (3x3)
+wire       | bronze | wire
+coal block | empty  | coal block
+planks     | planks | planks
+2 wires, 1 bronze ingot, 2 coal blocks, 3 planks.
+
+PROPYLENE SHEET (pressing)
+1 propylene ingot -> 1 propylene sheet.
+ProMod coal/electric press: 100 ticks, 5 seconds at 20 TPS.
+Electric cost: 800 E, 8 E per tick. Buffer: 16,000 E.
+Coal or charcoal: 16 sheets. Coal block: 160 sheets.
+Optional Create Fly mechanical press recipe; speed depends on Create.
+
+SMELTING (all six materials, both ore variants)
+1 ore block -> 1 ingot.
+Furnace: 200 ticks / 10 seconds. Blast furnace: 100 ticks / 5 seconds.
+Both need fuel. Ore drops itself; Fortune does not multiply the drop.
+
+COMMON INGREDIENTS
+Recipes use c:ingots/*, c:wires/copper, c:storage_blocks/coal and
+minecraft:planks. Different planks can be mixed. Correctly tagged ores and
+raw materials from other mods can also be smelted. Bronze is not brass.
+
+PHONE / SIM
+No phone or SIM crafting recipes exist yet. Use Creative or commands:
+/give @s modtel:smartphone
+/give @s modtel:sim_card

@@ -1,0 +1,15 @@
+PRO MOD WEBSITE AND DOWNLOADS
+
+ProMod mods and original artwork: Filip. All rights reserved.
+Minecraft item textures are displayed as recipe references. Minecraft and
+its assets belong to Mojang / Microsoft. This is an independent project,
+not an official Minecraft product.
+
+The website uses system fonts. Phone UI artwork on the homepage is an
+illustration, not a live in-game screenshot. Machine illustrations are
+derived from ProMod block models.
+
+ProTel's bundled fonts have their respective notices in FONT-LICENSES.txt.
+Materials includes Team Reborn Energy API; its license notice is included
+in the nested energy JAR. Fabric API is required separately and is linked
+from its project page, not redistributed in this download folder.
