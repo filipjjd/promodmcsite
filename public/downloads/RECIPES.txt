@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.2.2 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.2.3 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -20,8 +20,9 @@ planks     | planks | planks
 
 PROPYLENE SHEET (pressing)
 1 propylene ingot -> 1 propylene sheet.
-ProMod coal/electric press: 100 ticks, 5 seconds at 20 TPS.
-Electric cost: 800 E, 8 E per tick. Buffer: 16,000 E.
+Coal press: 100 ticks / 5 seconds. Electric press: 20 ticks / 1 second.
+Times assume 20 TPS.
+Electric cost: 800 E, 40 E per tick. Buffer: 16,000 E.
 Coal or charcoal: 16 sheets. Coal block: 160 sheets.
 Optional Create Fly mechanical press recipe; speed depends on Create.
 

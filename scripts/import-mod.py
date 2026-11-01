@@ -22,7 +22,7 @@ for key,b in data['balance'].items():b.update(name=names[key],rarity=rarities[ke
 data.pop('shots',None)
 (out/'data/catalog.js').write_text('window.PROMOD_DATA = '+json.dumps(data,ensure_ascii=False)+';\n',encoding='utf-8')
 releases=[]
-for name,version in [('promod-protel','1.2.2'),('promod-materials','0.2.2')]:
+for name,version in [('promod-protel','1.2.2'),('promod-materials','0.2.3')]:
     source=root/'GOTOWY MOD'/f'{name}-{version}.jar'
     with zipfile.ZipFile(source) as jar: assert json.loads(jar.read('fabric.mod.json'))['version']==version
     target=out/'downloads'/source.name;shutil.copy2(source,target)

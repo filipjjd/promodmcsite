@@ -39,7 +39,7 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
     }else if(type==='press'){
       const r=D.recipes.propylene_sheet;ingredients=[[resolve(r.ingredient),1,r.ingredient]];count=r.result.count||1;
       stage=`${slot(resolve(r.ingredient))}<span class="arrow" aria-hidden="true">→</span>${slot(id,count,true)}`;
-      note='Either ProMod press takes 100 ticks (5 seconds at 20 TPS). The electric press uses 800 E; the coal press needs fuel. With Create Fly installed, its mechanical press also supports this recipe, at a speed determined by Create.';
+      note='The coal press takes 100 ticks (5 seconds); the electric press takes 20 ticks (1 second), at 20 TPS. The electric press uses 800 E at 40 E/t; the coal press needs fuel. With Create Fly installed, its mechanical press also supports this recipe, at a speed determined by Create.';
     }else{
       const m=id.replace('_ingot',''),r=D.recipes[`${id}_from_smelting_${m}_ore`];
       options='<div class="recipe-options"><label for="ore-variant">Ore</label><select id="ore-variant"><option value="">Stone</option><option value="deepslate_">Deepslate</option></select><label for="furnace-type">Machine</label><select id="furnace-type"><option value="smelting">Furnace</option><option value="blasting">Blast furnace</option></select></div>';
