@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.2.3 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.2.4 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -40,3 +40,16 @@ PHONE / SIM
 No phone or SIM crafting recipes exist yet. Use Creative or commands:
 /give @s modtel:smartphone
 /give @s modtel:sim_card
+
+RECIPE VIEWERS (OPTIONAL)
+JEI 27.4.0.16 or REI 21.11.816 for Minecraft 1.21.11 Fabric.
+REI additionally needs Architectury 19.0.1 and Cloth Config 21.11.153.
+Coal pressing, electric pressing and wire cutting have dedicated categories.
+Press recipes synchronize from the server, including datapack recipes.
+Install one viewer on the client; ProMod Materials and Fabric API belong
+on both the server and clients. Viewers are not bundled or required.
+
+Shared tags work in both directions: modern c:, legacy forge: and flat
+Fabric tags, including chrome/chromium and c:silicon aliases. Materials
+must have the matching tag; similarly named items are not enough.
+Bronze is not brass, and propylene is not a generic plastic.

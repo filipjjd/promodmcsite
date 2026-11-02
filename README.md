@@ -49,7 +49,7 @@ checks embedded JAR versions, and creates the download manifest and SHA-256 chec
 ## Current downloads
 
 - ProTel 1.2.2 — internal ID `modtel` is preserved for existing saves.
-- Materials 0.2.3 — coal press: **5 seconds**; electric press: **1 second**, 800 E per sheet (40 E/t). Platinum and silicon remain at **Y=-6 through Y=16**.
+- Materials 0.2.4 — coal press: **5 seconds**; electric press: **1 second**, 800 E per sheet (40 E/t). Platinum and silicon remain at **Y=-6 through Y=16**.
 - Minecraft Java 1.21.11, Fabric, Java 21. Fabric API is a separate requirement.
 
 Both mods are required on the server and clients when used in multiplayer.
@@ -59,3 +59,5 @@ is claimed in these versions. These are development releases.
 The JARs and original mod artwork remain all rights reserved. See the download
 folder for third-party notices. A source commit does not itself confirm a
 Cloudflare deployment; check the connected Cloudflare project for its live URL.
+
+Materials 0.2.4 adds optional JEI / REI process categories and bidirectional material tags. Tested viewer versions and dependencies are listed in the public compatibility guide. Recipe viewers are installed separately and are not included in the downloads.
