@@ -5,8 +5,8 @@ let toastTimer;
 function notify(message) { const el=$('#toast'); if(!el)return;el.textContent=message;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4000); }
 if ($('#recipe-cards') && window.PROMOD_DATA) {
   const D=window.PROMOD_DATA,items=D.items;
-  const entries=[{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'propylene_sheet',type:'press',description:'1 ingot → 1 sheet'},...Object.keys(D.balance).map(m=>({id:m+'_ingot',type:'smelt',description:D.balance[m].rarity}))];
-  const types={craft:'Crafting',press:'Pressing',smelt:'Smelting'};
+  const entries=[{id:'tin_ingot',type:'mix',description:'1 zinc + 1 bronze + 1 copper → 1 tin'},{id:'coal_mixing_smelter',type:'machine',description:'6 inputs · 10 seconds · coal'},{id:'electric_mixing_smelter',type:'machine',description:'9 inputs · 5 seconds · 8-bucket tank'},{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'propylene_sheet',type:'press',description:'1 ingot → 1 sheet'},...Object.keys(D.balance).map(m=>({id:m+'_ingot',type:'smelt',description:D.balance[m].rarity}))];
+  const types={mix:'Mixing',machine:'Machine · crafting coming later',craft:'Crafting',press:'Pressing',smelt:'Smelting'};
   const tags={'#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/platinum':'platinum_ingot','#c:ingots/bronze':'bronze_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/propylene':'propylene_ingot','#c:ingots/copper':'copper_ingot'};
   let filter='all',current='',opener;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -15,7 +15,7 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
   function render(){
     const q=$('#search').value.trim().toLowerCase();
     const list=entries.filter(e=>(filter==='all'||filter===e.type)&&`${items[e.id].name} ${e.id} ${e.description}`.toLowerCase().includes(q));
-    $('#recipe-cards').innerHTML=list.map(e=>`<button class="recipe-card" data-recipe="${e.id}" aria-label="Recipe: ${items[e.id].name}"><div class="recipe-art"><small>${types[e.type]}</small>${image(e.id,e.id.endsWith('press')?'machine':'')}</div><div class="recipe-body"><h2>${items[e.id].name}</h2><p>${e.description}</p></div></button>`).join('');
+    $('#recipe-cards').innerHTML=list.map(e=>`<button class="recipe-card" data-recipe="${e.id}" aria-label="Recipe: ${items[e.id].name}"><div class="recipe-art"><small>${types[e.type]}</small>${image(e.id,(e.id.endsWith('press')||e.id.endsWith('smelter'))?'machine':'')}</div><div class="recipe-body"><h2>${items[e.id].name}</h2><p>${e.description}</p></div></button>`).join('');
     $('#recipe-count').textContent=`${list.length} OF ${entries.length} RECIPES · SELECT AN ITEM`;
     $('#empty').hidden=!!list.length;
   }
@@ -28,6 +28,14 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
       cells=['copper_ingot','shears','','','','','','',''];count=2;
       ingredients=[['copper_ingot',1,'#c:ingots/copper'],['shears',1,'minecraft:shears']];
       note='Shapeless: any arrangement works, including a 2×2 grid. Shears remain in the crafting grid and lose 1 durability; they break when exhausted. Unbreakable shears are preserved. Copper wire is a crafting ingredient, not a placeable power cable.';
+    }else if(type==='machine'){
+      stage=image(id,'machine');
+      note=id==='coal_mixing_smelter'?'6 input slots, 1 output slot and a separate fuel slot. One batch takes 10 seconds. Coal, charcoal or coal blocks supply heat.':'9 input slots, 1 output slot and an 8000 mB fluid tank. One batch takes 5 seconds and 4000 E. Pipes using Fabric Transfer API connect from all sides. Tin requires no fluid.';
+      note+=' Machine crafting will be added later. Use Creative or the /give command below.';
+    }else if(type==='mix'){
+      const r=D.recipes.tin_ingot;ingredients=r.ingredients.map(t=>[resolve(t),1,t]);count=r.result.count;
+      stage=`<div class="craft-grid" aria-label="Mixing smelter inputs, any order">${[...r.ingredients.map(resolve),'','',''].map(c=>slot(c)).join('')}</div><span class="arrow">→</span>${slot(id,count,true)}`;
+      note='Combine the three ingots in any input slots of a Mixing Smelter. Coal: 200 ticks (10 seconds). Electric: 100 ticks (5 seconds), 4000 E. Times assume 20 TPS. No fluid is consumed. Equivalent tagged ingots from other mods work. Tin has no natural ore in ProMod.';
     }else if(type==='craft'){
       const r=D.recipes[id],counts={};
       cells=r.pattern.flatMap(row=>[...row].map(c=>c===' '?'':resolve(r.key[c])));
@@ -48,7 +56,7 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
       note=`<span id="smelt-time">${r.cookingtime/20} seconds</span> at 20 TPS · ${r.experience} XP · 1 ore → 1 ingot. Add fuel to the furnace. Correctly tagged ores and raw materials from other mods also work; an existing recipe may produce that mod’s equivalent ingot.`;
     }
     if(!stage)stage=`<div class="craft-grid" aria-label="Crafting grid, three rows by three columns">${cells.map(c=>slot(c)).join('')}</div><span class="arrow" aria-hidden="true">→</span>${slot(id,count,true)}`;
-    return `${options}<div class="recipe-stage">${stage}</div><div class="ingredient-list" id="ingredient-list">${legend(ingredients)}</div><div class="callout">${note}</div><div class="actions"><button class="button light" id="copy-command">Copy /give command</button><a class="text-link" href="guide.html#${type==='smelt'?'mining':'machines'}">Read the guide →</a></div><p class="command"><code>/give @s promod-materials:${id}</code></p>`;
+    return `${options}<div class="recipe-stage">${stage}</div><div class="ingredient-list" id="ingredient-list">${legend(ingredients)}</div><div class="callout">${note}</div><div class="actions"><button class="button light" id="copy-command">Copy /give command</button><a class="text-link" href="guide.html#${type==='smelt'?'mining':(type==='mix'||type==='machine')?'mixing':'machines'}">Read the guide →</a></div><p class="command"><code>/give @s promod-materials:${id}</code></p>`;
   }
   function show(id){
     const entry=entries.find(e=>e.id===id);if(!entry)return;

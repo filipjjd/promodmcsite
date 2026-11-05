@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.2.4 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.3.0 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -53,3 +53,18 @@ Shared tags work in both directions: modern c:, legacy forge: and flat
 Fabric tags, including chrome/chromium and c:silicon aliases. Materials
 must have the matching tag; similarly named items are not enough.
 Bronze is not brass, and propylene is not a generic plastic.
+
+
+TIN / MIXING SMELTERS — 0.3.0
+1 zinc ingot + 1 bronze ingot + 1 copper ingot = 1 tin ingot.
+Place ingredients in any input slots. Common c:ingots material tags apply.
+Coal: 6 inputs, 1 output, 1 fuel slot; 10 seconds (200 ticks) per batch.
+Electric: 9 inputs, 1 output, 8000 mB fluid tank; 5 seconds (100 ticks).
+Electric cost: 4000 E at 40 E/t; 32000 E buffer, up to 256 E/t input.
+Tin requires no fluid. The electric tank can be filled and drained by
+Fabric Transfer API pipes on all sides, or compatible fluid containers.
+It stores one fluid variant. Create Fly 6.0.9-5 fluid bridge was checked.
+Machine crafting will follow; for now use Creative or /give:
+/give @s promod-materials:coal_mixing_smelter
+/give @s promod-materials:electric_mixing_smelter
+JEI and REI show both mixing categories. Tin has no ProMod ore.

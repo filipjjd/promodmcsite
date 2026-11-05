@@ -20,6 +20,11 @@ for(const item of Object.values(d.items))assert((await stat(path.join(root,item.
 for(const metal of ['platinum','silicon'])assert.equal(JSON.stringify(d.balance[metal].range),'[-6,16]');
 assert.equal(d.recipes.electric_press.pattern.join('/'),'WZW/IPI/DID');
 assert.equal(d.recipes.coal_press.pattern.join('/'),'WBW/C C/DDD');
+assert.equal(d.recipes.tin_ingot.type,'promod-materials:mixing_smelting');
+assert.equal(JSON.stringify(d.recipes.tin_ingot.ingredients),JSON.stringify(['#c:ingots/zinc','#c:ingots/bronze','#c:ingots/copper']));
+assert.equal(d.recipes.tin_ingot.result.id,'promod-materials:tin_ingot');
+assert.equal(d.recipes.tin_ingot.result.count,1);
+assert(!d.recipes.coal_mixing_smelter && !d.recipes.electric_mixing_smelter,'Machine crafting is intentionally deferred');
 for(const r of JSON.parse(await readFile(path.join(root,'downloads/manifest.json'),'utf8'))){
   const bytes=await readFile(path.join(root,r.file));assert.equal(bytes.length,r.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),r.sha256);assert.equal(bytes.subarray(0,2).toString(),'PK');
 }

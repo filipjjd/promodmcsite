@@ -4,8 +4,8 @@ import sys,json,re,base64,hashlib,shutil,zipfile
 root=Path(sys.argv[1]);out=Path(__file__).resolve().parents[1]/'public'
 guide=(root/'GOTOWY MOD/PROMOD - CRAFTINGI.html').read_text(encoding='utf-8')
 data=json.loads(re.search(r'<script id="guide-data" type="application/json">(.*?)</script>',guide,re.S).group(1))
-names={'zinc':'Zinc','bronze':'Bronze','chromium':'Chromium','platinum':'Platinum','silicon':'Silicon','propylene':'Propylene'}
-extra={'copper_wire':'Copper wire','propylene_sheet':'Propylene sheet','electric_press':'Electric press','coal_press':'Coal press','copper_ingot':'Copper ingot','iron_ingot':'Iron ingot','shears':'Shears','oak_planks':'Any planks','coal_block':'Block of coal','coal':'Coal'}
+names={'zinc':'Zinc','bronze':'Bronze','chromium':'Chromium','platinum':'Platinum','silicon':'Silicon','propylene':'Propylene','tin':'Tin'}
+extra={'coal_mixing_smelter':'Coal mixing smelter','electric_mixing_smelter':'Electric mixing smelter','copper_wire':'Copper wire','propylene_sheet':'Propylene sheet','electric_press':'Electric press','coal_press':'Coal press','copper_ingot':'Copper ingot','iron_ingot':'Iron ingot','shears':'Shears','oak_planks':'Any planks','coal_block':'Block of coal','coal':'Coal'}
 (out/'assets/items').mkdir(parents=True,exist_ok=True)
 for key,item in data['items'].items():
     ext='svg' if item['image'].startswith('data:image/svg+xml') else 'png'
@@ -22,7 +22,7 @@ for key,b in data['balance'].items():b.update(name=names[key],rarity=rarities[ke
 data.pop('shots',None)
 (out/'data/catalog.js').write_text('window.PROMOD_DATA = '+json.dumps(data,ensure_ascii=False)+';\n',encoding='utf-8')
 releases=[]
-for name,version in [('promod-protel','1.2.2'),('promod-materials','0.2.4')]:
+for name,version in [('promod-protel','1.2.2'),('promod-materials','0.3.0')]:
     source=root/'GOTOWY MOD'/f'{name}-{version}.jar'
     with zipfile.ZipFile(source) as jar: assert json.loads(jar.read('fabric.mod.json'))['version']==version
     target=out/'downloads'/source.name;shutil.copy2(source,target)

@@ -61,3 +61,5 @@ folder for third-party notices. A source commit does not itself confirm a
 Cloudflare deployment; check the connected Cloudflare project for its live URL.
 
 Materials 0.2.4 adds optional JEI / REI process categories and bidirectional material tags. Tested viewer versions and dependencies are listed in the public compatibility guide. Recipe viewers are installed separately and are not included in the downloads.
+
+Materials 0.3.0: tin and two Mixing Smelters (6/9 input slots, 10/5 seconds), optional fluid piping through Fabric Transfer API, JEI/REI process views. Smelter crafting is intentionally deferred; Creative and /give are documented.
