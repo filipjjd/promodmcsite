@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.3.0 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.3.1 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -55,7 +55,7 @@ must have the matching tag; similarly named items are not enough.
 Bronze is not brass, and propylene is not a generic plastic.
 
 
-TIN / MIXING SMELTERS — 0.3.0
+TIN / MIXING SMELTERS — 0.3.1
 1 zinc ingot + 1 bronze ingot + 1 copper ingot = 1 tin ingot.
 Place ingredients in any input slots. Common c:ingots material tags apply.
 Coal: 6 inputs, 1 output, 1 fuel slot; 10 seconds (200 ticks) per batch.
