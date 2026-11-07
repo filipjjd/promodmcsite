@@ -49,7 +49,7 @@ checks embedded JAR versions, and creates the download manifest and SHA-256 chec
 ## Current downloads
 
 - ProTel 1.2.2 — internal ID `modtel` is preserved for existing saves.
-- Materials 0.4.0 — coal press: **5 seconds**; electric press: **1 second**, 800 E per sheet (40 E/t). Platinum and silicon remain at **Y=-6 through Y=16**.
+- Materials 0.4.1 — coal press: **5 seconds**; electric press: **1 second**, 800 E per sheet (40 E/t). Platinum and silicon remain at **Y=-6 through Y=16**.
 - Minecraft Java 1.21.11, Fabric, Java 21. Fabric API is a separate requirement.
 
 Both mods are required on the server and clients when used in multiplayer.
@@ -67,3 +67,5 @@ Materials 0.3.0: tin and two Mixing Smelters (6/9 input slots, 10/5 seconds), op
 Materials 0.3.1 refreshes both Mixing Smelter models and derives their website previews directly from the in-game geometry and textures. Recipes and timing stay unchanged.
 
 Materials 0.4.0 adds Cleared Silicon and UV Solution. Electric mixing consumes four solids and 1000 mB UV per 5-second cycle. UV crafting reuses one bucket and returns the other; common tags accept equivalent modded ingredients. Includes fluid rendering, pipe transfer and JEI/REI support.
+
+Materials 0.4.1 adds both 3×3 Mixing Smelter craftings, common tags for blocks/diamonds/sheets, and refreshed press pixel textures with corrected UVs. Machine website previews come from the actual model assets.

@@ -6,15 +6,15 @@ function notify(message) { const el=$('#toast'); if(!el)return;el.textContent=me
 if ($('#recipe-cards') && window.PROMOD_DATA) {
   const D=window.PROMOD_DATA,items=D.items;
   const entries=[{id:'cleared_silicon',type:'mix',description:'4 ingredients + 1000 mB UV · electric only'},{id:'uv_solution_bucket',type:'craft',description:'Milk + water + copper + zinc → UV Solution'},{id:'tin_ingot',type:'mix',description:'1 zinc + 1 bronze + 1 copper → 1 tin'},{id:'coal_mixing_smelter',type:'machine',description:'6 inputs · 10 seconds · coal'},{id:'electric_mixing_smelter',type:'machine',description:'9 inputs · 5 seconds · 8-bucket tank'},{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'propylene_sheet',type:'press',description:'1 ingot → 1 sheet'},...Object.keys(D.balance).map(m=>({id:m+'_ingot',type:'smelt',description:D.balance[m].rarity}))];
-  const types={mix:'Mixing',machine:'Machine · crafting coming later',craft:'Crafting',press:'Pressing',smelt:'Smelting'};
-  const tags={'#c:ingots/silicon':'silicon_ingot','#c:ingots/tin':'tin_ingot','#c:gems/quartz':'quartz','#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/platinum':'platinum_ingot','#c:ingots/bronze':'bronze_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/propylene':'propylene_ingot','#c:ingots/copper':'copper_ingot'};
+  const types={mix:'Mixing',machine:'Machine crafting',craft:'Crafting',press:'Pressing',smelt:'Smelting'};
+  const tags={'#c:plates/propylene':'propylene_sheet','#c:storage_blocks/iron':'iron_block','#c:gems/diamond':'diamond','#c:ingots/silicon':'silicon_ingot','#c:ingots/tin':'tin_ingot','#c:gems/quartz':'quartz','#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/platinum':'platinum_ingot','#c:ingots/bronze':'bronze_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/propylene':'propylene_ingot','#c:ingots/copper':'copper_ingot'};
   let filter='all',current='',opener;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const image=(id,cls='')=>`<img class="${cls}" src="${items[id].image}" alt="${esc(items[id].name)}">`;
   const resolve=s=>tags[s]||s.split(':').pop();
   function render(){
     const q=$('#search').value.trim().toLowerCase();
-    const list=entries.filter(e=>(filter==='all'||filter===e.type)&&`${items[e.id].name} ${e.id} ${e.description}`.toLowerCase().includes(q));
+    const list=entries.filter(e=>(filter==='all'||filter===e.type||(filter==='craft'&&e.type==='machine')||(filter==='machine'&&(e.id.endsWith('press')||e.id.endsWith('smelter'))))&&`${items[e.id].name} ${e.id} ${e.description}`.toLowerCase().includes(q));
     $('#recipe-cards').innerHTML=list.map(e=>`<button class="recipe-card" data-recipe="${e.id}" aria-label="Recipe: ${items[e.id].name}"><div class="recipe-art"><small>${types[e.type]}</small>${image(e.id,(e.id.endsWith('press')||e.id.endsWith('smelter'))?'machine':'')}</div><div class="recipe-body"><h2>${items[e.id].name}</h2><p>${e.description}</p></div></button>`).join('');
     $('#recipe-count').textContent=`${list.length} OF ${entries.length} RECIPES · SELECT AN ITEM`;
     $('#empty').hidden=!!list.length;
@@ -29,9 +29,12 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
       ingredients=[['copper_ingot',1,'#c:ingots/copper'],['shears',1,'minecraft:shears']];
       note='Shapeless: any arrangement works, including a 2×2 grid. Shears remain in the crafting grid and lose 1 durability; they break when exhausted. Unbreakable shears are preserved. Copper wire is a crafting ingredient, not a placeable power cable.';
     }else if(type==='machine'){
-      stage=image(id,'machine');
+      const r=D.recipes[id],counts={};
+      cells=r.pattern.flatMap(row=>[...row].map(c=>c===' '?'':resolve(r.key[c])));
+      for(const row of r.pattern)for(const c of row)if(c!==' ')counts[r.key[c]]=(counts[r.key[c]]||0)+1;
+      ingredients=Object.entries(counts).map(([tag,n])=>[resolve(tag),n,tag]);count=r.result.count||1;
       note=id==='coal_mixing_smelter'?'6 input slots, 1 output slot and a separate fuel slot. One batch takes 10 seconds. Coal, charcoal or coal blocks supply heat.':'9 input slots, 1 output slot and an 8000 mB fluid tank. One batch takes 5 seconds and 4000 E. Pipes using Fabric Transfer API connect from all sides. Tin requires no fluid.';
-      note+=' Machine crafting will be added later. Use Creative or the /give command below.';
+      note+=' Craft one machine using the 3×3 arrangement above. Equivalent tagged materials from other mods are accepted. Wood types can be mixed. Iron and coal ingredients are full blocks.';
     }else if(type==='mix'){
       const r=D.recipes[id];ingredients=r.ingredients.map(t=>[resolve(t),1,t]);count=r.result.count;
       stage=`<div class="craft-grid" aria-label="Mixing smelter inputs, any order">${[...r.ingredients.map(resolve),...Array(6-r.ingredients.length).fill('')].map(c=>slot(c)).join('')}</div><span class="arrow">→</span>${slot(id,count,true)}`;
