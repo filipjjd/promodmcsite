@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.3.1 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.4.0 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -68,3 +68,21 @@ Machine crafting will follow; for now use Creative or /give:
 /give @s promod-materials:coal_mixing_smelter
 /give @s promod-materials:electric_mixing_smelter
 JEI and REI show both mixing categories. Tin has no ProMod ore.
+
+
+CLEARED SILICON / UV SOLUTION — 0.4.0
+Shapeless crafting, 2x2 or 3x3:
+1 milk bucket + 1 water bucket + 1 copper ingot + 1 zinc ingot
+-> 1 UV Solution bucket (1000 mB) + 1 empty bucket.
+The water bucket becomes the UV bucket; the milk bucket is returned empty.
+
+Electric Mixing Smelter only:
+1 silicon ingot + 1 Nether quartz + 1 tin ingot + 1 platinum ingot
++ 1000 mB UV Solution from the tank -> 1 Cleared Silicon.
+100 ticks / 5 seconds at 20 TPS; 4000 E. Fluid consumed at completion.
+Fill the tank with a bucket or compatible pipes, not the item input slots.
+Full output or insufficient UV pauses processing without wasting resources.
+Shared tags: c:ingots/silicon, c:gems/quartz, c:ingots/tin,
+c:ingots/platinum, c:ingots/copper, c:ingots/zinc.
+UV Solution cannot form infinite sources. Tin still requires no fluid.
+JEI and REI show UV crafting and the fluid requirement for Cleared Silicon.

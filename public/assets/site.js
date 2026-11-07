@@ -5,9 +5,9 @@ let toastTimer;
 function notify(message) { const el=$('#toast'); if(!el)return;el.textContent=message;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4000); }
 if ($('#recipe-cards') && window.PROMOD_DATA) {
   const D=window.PROMOD_DATA,items=D.items;
-  const entries=[{id:'tin_ingot',type:'mix',description:'1 zinc + 1 bronze + 1 copper → 1 tin'},{id:'coal_mixing_smelter',type:'machine',description:'6 inputs · 10 seconds · coal'},{id:'electric_mixing_smelter',type:'machine',description:'9 inputs · 5 seconds · 8-bucket tank'},{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'propylene_sheet',type:'press',description:'1 ingot → 1 sheet'},...Object.keys(D.balance).map(m=>({id:m+'_ingot',type:'smelt',description:D.balance[m].rarity}))];
+  const entries=[{id:'cleared_silicon',type:'mix',description:'4 ingredients + 1000 mB UV · electric only'},{id:'uv_solution_bucket',type:'craft',description:'Milk + water + copper + zinc → UV Solution'},{id:'tin_ingot',type:'mix',description:'1 zinc + 1 bronze + 1 copper → 1 tin'},{id:'coal_mixing_smelter',type:'machine',description:'6 inputs · 10 seconds · coal'},{id:'electric_mixing_smelter',type:'machine',description:'9 inputs · 5 seconds · 8-bucket tank'},{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'propylene_sheet',type:'press',description:'1 ingot → 1 sheet'},...Object.keys(D.balance).map(m=>({id:m+'_ingot',type:'smelt',description:D.balance[m].rarity}))];
   const types={mix:'Mixing',machine:'Machine · crafting coming later',craft:'Crafting',press:'Pressing',smelt:'Smelting'};
-  const tags={'#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/platinum':'platinum_ingot','#c:ingots/bronze':'bronze_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/propylene':'propylene_ingot','#c:ingots/copper':'copper_ingot'};
+  const tags={'#c:ingots/silicon':'silicon_ingot','#c:ingots/tin':'tin_ingot','#c:gems/quartz':'quartz','#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/platinum':'platinum_ingot','#c:ingots/bronze':'bronze_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/propylene':'propylene_ingot','#c:ingots/copper':'copper_ingot'};
   let filter='all',current='',opener;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const image=(id,cls='')=>`<img class="${cls}" src="${items[id].image}" alt="${esc(items[id].name)}">`;
@@ -33,9 +33,16 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
       note=id==='coal_mixing_smelter'?'6 input slots, 1 output slot and a separate fuel slot. One batch takes 10 seconds. Coal, charcoal or coal blocks supply heat.':'9 input slots, 1 output slot and an 8000 mB fluid tank. One batch takes 5 seconds and 4000 E. Pipes using Fabric Transfer API connect from all sides. Tin requires no fluid.';
       note+=' Machine crafting will be added later. Use Creative or the /give command below.';
     }else if(type==='mix'){
-      const r=D.recipes.tin_ingot;ingredients=r.ingredients.map(t=>[resolve(t),1,t]);count=r.result.count;
-      stage=`<div class="craft-grid" aria-label="Mixing smelter inputs, any order">${[...r.ingredients.map(resolve),'','',''].map(c=>slot(c)).join('')}</div><span class="arrow">→</span>${slot(id,count,true)}`;
-      note='Combine the three ingots in any input slots of a Mixing Smelter. Coal: 200 ticks (10 seconds). Electric: 100 ticks (5 seconds), 4000 E. Times assume 20 TPS. No fluid is consumed. Equivalent tagged ingots from other mods work. Tin has no natural ore in ProMod.';
+      const r=D.recipes[id];ingredients=r.ingredients.map(t=>[resolve(t),1,t]);count=r.result.count;
+      stage=`<div class="craft-grid" aria-label="Mixing smelter inputs, any order">${[...r.ingredients.map(resolve),...Array(6-r.ingredients.length).fill('')].map(c=>slot(c)).join('')}</div><span class="arrow">→</span>${slot(id,count,true)}`;
+      if(r.fluid){
+        ingredients.push(['uv_solution_bucket',1,`Tank: ${r.fluid_amount} mB UV Solution`]);
+        note='Electric Mixing Smelter only: put the four solids into input slots in any order. Fill its tank with 1000 mB UV Solution using a bucket or compatible pipe. One batch consumes one of each solid and exactly 1000 mB of fluid to produce 1 Cleared Silicon in 100 ticks (5 seconds), using 4000 E. The bucket itself is not an input item. A full output slot or insufficient UV pauses processing without consuming resources. Equivalent tagged materials work. Times assume 20 TPS.';
+      }else note='Combine the three ingots in any input slots of a Mixing Smelter. Coal: 200 ticks (10 seconds). Electric: 100 ticks (5 seconds), 4000 E. Times assume 20 TPS. No fluid is consumed. Equivalent tagged ingots from other mods work. Tin has no natural ore in ProMod.';
+    }else if(id==='uv_solution_bucket'){
+      const r=D.recipes[id];cells=[...r.ingredients.map(resolve),...Array(5).fill('')];
+      ingredients=r.ingredients.map(t=>[resolve(t),1,t]);count=r.result.count;
+      note='Shapeless: one milk bucket + one water bucket + one copper ingot + one zinc ingot. Works in a 2×2 or 3×3 grid, in any order. Produces one bucket containing 1000 mB UV Solution and returns one empty bucket. The water bucket becomes the UV bucket; the milk bucket is returned empty. Tagged copper and zinc from other mods are accepted. Pour the solution into the electric Mixing Smelter tank to make Cleared Silicon.';
     }else if(type==='craft'){
       const r=D.recipes[id],counts={};
       cells=r.pattern.flatMap(row=>[...row].map(c=>c===' '?'':resolve(r.key[c])));
@@ -56,7 +63,7 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
       note=`<span id="smelt-time">${r.cookingtime/20} seconds</span> at 20 TPS · ${r.experience} XP · 1 ore → 1 ingot. Add fuel to the furnace. Correctly tagged ores and raw materials from other mods also work; an existing recipe may produce that mod’s equivalent ingot.`;
     }
     if(!stage)stage=`<div class="craft-grid" aria-label="Crafting grid, three rows by three columns">${cells.map(c=>slot(c)).join('')}</div><span class="arrow" aria-hidden="true">→</span>${slot(id,count,true)}`;
-    return `${options}<div class="recipe-stage">${stage}</div><div class="ingredient-list" id="ingredient-list">${legend(ingredients)}</div><div class="callout">${note}</div><div class="actions"><button class="button light" id="copy-command">Copy /give command</button><a class="text-link" href="guide.html#${type==='smelt'?'mining':(type==='mix'||type==='machine')?'mixing':'machines'}">Read the guide →</a></div><p class="command"><code>/give @s promod-materials:${id}</code></p>`;
+    return `${options}<div class="recipe-stage">${stage}</div><div class="ingredient-list" id="ingredient-list">${legend(ingredients)}</div><div class="callout">${note}</div><div class="actions"><button class="button light" id="copy-command">Copy /give command</button><a class="text-link" href="guide.html#${type==='smelt'?'mining':(type==='mix'||type==='machine'||id==='uv_solution_bucket')?'mixing':'machines'}">Read the guide →</a></div><p class="command"><code>/give @s promod-materials:${id}</code></p>`;
   }
   function show(id){
     const entry=entries.find(e=>e.id===id);if(!entry)return;

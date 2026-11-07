@@ -24,6 +24,16 @@ assert.equal(d.recipes.tin_ingot.type,'promod-materials:mixing_smelting');
 assert.equal(JSON.stringify(d.recipes.tin_ingot.ingredients),JSON.stringify(['#c:ingots/zinc','#c:ingots/bronze','#c:ingots/copper']));
 assert.equal(d.recipes.tin_ingot.result.id,'promod-materials:tin_ingot');
 assert.equal(d.recipes.tin_ingot.result.count,1);
+assert.equal(d.recipes.cleared_silicon.type,'promod-materials:mixing_smelting');
+assert.equal(JSON.stringify(d.recipes.cleared_silicon.ingredients),JSON.stringify(['#c:ingots/silicon','#c:gems/quartz','#c:ingots/tin','#c:ingots/platinum']));
+assert.equal(d.recipes.cleared_silicon.fluid,'promod-materials:uv_solution');
+assert.equal(d.recipes.cleared_silicon.fluid_amount,1000);
+assert.equal(d.recipes.cleared_silicon.result.id,'promod-materials:cleared_silicon');
+assert.equal(d.recipes.cleared_silicon.result.count,1);
+assert.equal(d.recipes.uv_solution_bucket.type,'promod-materials:uv_solution');
+assert.equal(JSON.stringify(d.recipes.uv_solution_bucket.ingredients),JSON.stringify(['minecraft:milk_bucket','minecraft:water_bucket','#c:ingots/copper','#c:ingots/zinc']));
+assert.equal(d.recipes.uv_solution_bucket.result.id,'promod-materials:uv_solution_bucket');
+assert.equal(d.recipes.uv_solution_bucket.result.count,1);
 assert(!d.recipes.coal_mixing_smelter && !d.recipes.electric_mixing_smelter,'Machine crafting is intentionally deferred');
 for(const r of JSON.parse(await readFile(path.join(root,'downloads/manifest.json'),'utf8'))){
   const bytes=await readFile(path.join(root,r.file));assert.equal(bytes.length,r.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),r.sha256);assert.equal(bytes.subarray(0,2).toString(),'PK');
