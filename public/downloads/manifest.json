@@ -11,10 +11,10 @@
   },
   {
     "id": "promod-materials",
-    "version": "0.4.1",
-    "file": "downloads/promod-materials-0.4.1.jar",
-    "bytes": 276167,
-    "sha256": "50d5430e696e826505f6f6d39bf0de1c4b67a4a1c6432172328bd411792e15b5",
+    "version": "0.5.0",
+    "file": "downloads/promod-materials-0.5.0.jar",
+    "bytes": 287076,
+    "sha256": "bbbf94755ec221bff46b72ed557c25db4aba7a8779c4985fca29fe10aeefff5b",
     "minecraft": "1.21.11",
     "loader": "Fabric",
     "java": 21

@@ -5,9 +5,9 @@ let toastTimer;
 function notify(message) { const el=$('#toast'); if(!el)return;el.textContent=message;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4000); }
 if ($('#recipe-cards') && window.PROMOD_DATA) {
   const D=window.PROMOD_DATA,items=D.items;
-  const entries=[{id:'cleared_silicon',type:'mix',description:'4 ingredients + 1000 mB UV · electric only'},{id:'uv_solution_bucket',type:'craft',description:'Milk + water + copper + zinc → UV Solution'},{id:'tin_ingot',type:'mix',description:'1 zinc + 1 bronze + 1 copper → 1 tin'},{id:'coal_mixing_smelter',type:'machine',description:'6 inputs · 10 seconds · coal'},{id:'electric_mixing_smelter',type:'machine',description:'9 inputs · 5 seconds · 8-bucket tank'},{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'propylene_sheet',type:'press',description:'1 ingot → 1 sheet'},...Object.keys(D.balance).map(m=>({id:m+'_ingot',type:'smelt',description:D.balance[m].rarity}))];
+  const entries=[{id:'cleared_silicon',type:'mix',description:'4 ingredients + 1000 mB UV · electric only'},{id:'uv_solution_bucket',type:'craft',description:'Milk + water + copper + zinc → UV Solution'},{id:'tin_ingot',type:'mix',description:'1 zinc + 1 lead + 1 copper → 1 tin'},{id:'coal_mixing_smelter',type:'machine',description:'6 inputs · 10 seconds · coal'},{id:'electric_mixing_smelter',type:'machine',description:'9 inputs · 5 seconds · 8-bucket tank'},{id:'coal_press',type:'craft',description:'Fuel your first workshop.'},{id:'electric_press',type:'craft',description:'A press for your powered line.'},{id:'copper_wire',type:'craft',description:'1 ingot + shears → 2 wires'},{id:'tungsten_plate',type:'press',description:'1 ingot → 1 plate'},...Object.keys(D.balance).map(m=>({id:D.balance[m].product,ore:m,type:'smelt',description:D.balance[m].rarity}))];
   const types={mix:'Mixing',machine:'Machine crafting',craft:'Crafting',press:'Pressing',smelt:'Smelting'};
-  const tags={'#c:plates/propylene':'propylene_sheet','#c:storage_blocks/iron':'iron_block','#c:gems/diamond':'diamond','#c:ingots/silicon':'silicon_ingot','#c:ingots/tin':'tin_ingot','#c:gems/quartz':'quartz','#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/platinum':'platinum_ingot','#c:ingots/bronze':'bronze_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/propylene':'propylene_ingot','#c:ingots/copper':'copper_ingot'};
+  const tags={'#c:plates/tungsten':'tungsten_plate','#c:storage_blocks/iron':'iron_block','#c:gems/diamond':'diamond','#c:gems/viner_quartz':'viner_quartz','#c:ingots/tin':'tin_ingot','#c:gems/quartz':'quartz','#c:wires/copper':'copper_wire','#c:ingots/zinc':'zinc_ingot','#c:ingots/magnetite':'magnetite_ingot','#c:ingots/lead':'lead_ingot','#c:ingots/iron':'iron_ingot','#minecraft:planks':'oak_planks','#c:storage_blocks/coal':'coal_block','#c:ingots/tungsten':'tungsten_ingot','#c:ingots/copper':'copper_ingot'};
   let filter='all',current='',opener;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const image=(id,cls='')=>`<img class="${cls}" src="${items[id].image}" alt="${esc(items[id].name)}">`;
@@ -52,18 +52,18 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
       for(const row of r.pattern)for(const c of row)if(c!==' ')counts[r.key[c]]=(counts[r.key[c]]||0)+1;
       ingredients=Object.entries(counts).map(([tag,n])=>[resolve(tag),n,tag]);
       count=r.result.count||1;
-      note='Use this 3×3 arrangement on a crafting table. Any planks may be mixed, including Nether planks and correctly tagged modded planks. Zinc, platinum and bronze are the existing smelted ingots.';
+      note='Use this 3×3 arrangement on a crafting table. Any planks may be mixed, including Nether planks and correctly tagged modded planks. Zinc, magnetite and lead are smelted ingots.';
       note+=id==='electric_press'?' The press requires a compatible external energy source; ProMod does not yet include a generator.':' Fuel the machine with coal, charcoal or coal blocks.';
     }else if(type==='press'){
-      const r=D.recipes.propylene_sheet;ingredients=[[resolve(r.ingredient),1,r.ingredient]];count=r.result.count||1;
+      const r=D.recipes.tungsten_plate;ingredients=[[resolve(r.ingredient),1,r.ingredient]];count=r.result.count||1;
       stage=`${slot(resolve(r.ingredient))}<span class="arrow" aria-hidden="true">→</span>${slot(id,count,true)}`;
       note='The coal press takes 100 ticks (5 seconds); the electric press takes 20 ticks (1 second), at 20 TPS. The electric press uses 800 E at 40 E/t; the coal press needs fuel. With Create Fly installed, its mechanical press also supports this recipe, at a speed determined by Create.';
     }else{
-      const m=id.replace('_ingot',''),r=D.recipes[`${id}_from_smelting_${m}_ore`];
+      const m=entries.find(e=>e.id===id).ore,r=D.recipes[`${id}_from_smelting_${m}_ore`];
       options='<div class="recipe-options"><label for="ore-variant">Ore</label><select id="ore-variant"><option value="">Stone</option><option value="deepslate_">Deepslate</option></select><label for="furnace-type">Machine</label><select id="furnace-type"><option value="smelting">Furnace</option><option value="blasting">Blast furnace</option></select></div>';
       ingredients=[[m+'_ore',1,'promod-materials:'+m+'_ore']];
       stage=`<div id="smelt-input">${slot(m+'_ore')}</div><span class="arrow" aria-hidden="true">→</span>${slot(id,1,true)}`;
-      note=`<span id="smelt-time">${r.cookingtime/20} seconds</span> at 20 TPS · ${r.experience} XP · 1 ore → 1 ingot. Add fuel to the furnace. Correctly tagged ores and raw materials from other mods also work; an existing recipe may produce that mod’s equivalent ingot.`;
+      note=`<span id="smelt-time">${r.cookingtime/20} seconds</span> at 20 TPS · ${r.experience} XP · 1 ore → 1 product. Add fuel to the furnace. Correctly tagged ores and raw materials from other mods also work; an existing recipe may produce that mod’s equivalent material.`;
     }
     if(!stage)stage=`<div class="craft-grid" aria-label="Crafting grid, three rows by three columns">${cells.map(c=>slot(c)).join('')}</div><span class="arrow" aria-hidden="true">→</span>${slot(id,count,true)}`;
     return `${options}<div class="recipe-stage">${stage}</div><div class="ingredient-list" id="ingredient-list">${legend(ingredients)}</div><div class="callout">${note}</div><div class="actions"><button class="button light" id="copy-command">Copy /give command</button><a class="text-link" href="guide.html#${type==='smelt'?'mining':(type==='mix'||type==='machine'||id==='uv_solution_bucket')?'mixing':'machines'}">Read the guide →</a></div><p class="command"><code>/give @s promod-materials:${id}</code></p>`;
@@ -74,7 +74,7 @@ if ($('#recipe-cards') && window.PROMOD_DATA) {
     $('#recipe-title').textContent=items[id].name;$('#recipe-type').textContent=types[entry.type];$('#recipe-detail').innerHTML=body(id);
     $('#recipe-dialog').showModal();$('#recipe-dialog').scrollTop=0;
     if($('#ore-variant')){
-      const update=()=>{const m=id.replace('_ingot',''),ore=$('#ore-variant').value+m+'_ore',r=D.recipes[`${id}_from_${$('#furnace-type').value}_${ore}`];$('#smelt-input').innerHTML=slot(ore);$('#smelt-time').textContent=r.cookingtime/20+' seconds';$('#ingredient-list').innerHTML=legend([[ore,1,'promod-materials:'+ore]]);};
+      const update=()=>{const m=entries.find(e=>e.id===id).ore,ore=$('#ore-variant').value+m+'_ore',r=D.recipes[`${id}_from_${$('#furnace-type').value}_${ore}`];$('#smelt-input').innerHTML=slot(ore);$('#smelt-time').textContent=r.cookingtime/20+' seconds';$('#ingredient-list').innerHTML=legend([[ore,1,'promod-materials:'+ore]]);};
       $('#ore-variant').onchange=update;$('#furnace-type').onchange=update;
     }
     $('#copy-command').onclick=async()=>{try{await navigator.clipboard.writeText('/give @s promod-materials:'+current);notify('Command copied.');}catch{notify('Copy the command shown below the button.');}};

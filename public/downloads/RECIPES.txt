@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.4.1 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.5.0 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -8,33 +8,35 @@ Unbreakable shears do not lose durability.
 
 ELECTRIC PRESS (3x3)
 wire   | zinc     | wire
-iron   | platinum | iron
+iron   | magnetite | iron
 planks | iron     | planks
-2 wires, 1 zinc ingot, 1 platinum ingot, 3 iron ingots, 2 planks.
+2 wires, 1 zinc ingot, 1 magnetite ingot, 3 iron ingots, 2 planks.
 
 COAL PRESS (3x3)
-wire       | bronze | wire
+wire       | lead | wire
 coal block | empty  | coal block
 planks     | planks | planks
-2 wires, 1 bronze ingot, 2 coal blocks, 3 planks.
+2 wires, 1 lead ingot, 2 coal blocks, 3 planks.
 
-PROPYLENE SHEET (pressing)
-1 propylene ingot -> 1 propylene sheet.
+TUNGSTEN PLATE (pressing)
+1 tungsten ingot -> 1 tungsten plate.
 Coal press: 100 ticks / 5 seconds. Electric press: 20 ticks / 1 second.
 Times assume 20 TPS.
 Electric cost: 800 E, 40 E per tick. Buffer: 16,000 E.
-Coal or charcoal: 16 sheets. Coal block: 160 sheets.
+Coal or charcoal: 16 plates. Coal block: 160 plates.
 Optional Create Fly mechanical press recipe; speed depends on Create.
 
 SMELTING (all six materials, both ore variants)
-1 ore block -> 1 ingot.
+Zinc -> zinc ingot; lead -> lead ingot; chromite -> chromium ingot;
+magnetite -> magnetite ingot; Viner Quartz -> Viner Quartz crystal;
+wolframite -> tungsten ingot. All recipes: 1 ore block -> 1 product.
 Furnace: 200 ticks / 10 seconds. Blast furnace: 100 ticks / 5 seconds.
 Both need fuel. Ore drops itself; Fortune does not multiply the drop.
 
 COMMON INGREDIENTS
 Recipes use c:ingots/*, c:wires/copper, c:storage_blocks/coal and
 minecraft:planks. Different planks can be mixed. Correctly tagged ores and
-raw materials from other mods can also be smelted. Bronze is not brass.
+raw materials from other mods can also be smelted. Lead is not brass.
 
 PHONE / SIM
 No phone or SIM crafting recipes exist yet. Use Creative or commands:
@@ -52,11 +54,11 @@ on both the server and clients. Viewers are not bundled or required.
 Shared tags work in both directions: modern c:, legacy forge: and flat
 Fabric tags, including chrome/chromium and c:silicon aliases. Materials
 must have the matching tag; similarly named items are not enough.
-Bronze is not brass, and propylene is not a generic plastic.
+Lead, bronze and brass are separate materials. Viner Quartz is not Nether quartz.
 
 
 TIN / MIXING SMELTERS — 0.3.1
-1 zinc ingot + 1 bronze ingot + 1 copper ingot = 1 tin ingot.
+1 zinc ingot + 1 lead ingot + 1 copper ingot = 1 tin ingot.
 Place ingredients in any input slots. Common c:ingots material tags apply.
 Coal: 6 inputs, 1 output, 1 fuel slot; 10 seconds (200 ticks) per batch.
 Electric: 9 inputs, 1 output, 8000 mB fluid tank; 5 seconds (100 ticks).
@@ -77,34 +79,39 @@ Shapeless crafting, 2x2 or 3x3:
 The water bucket becomes the UV bucket; the milk bucket is returned empty.
 
 Electric Mixing Smelter only:
-1 silicon ingot + 1 Nether quartz + 1 tin ingot + 1 platinum ingot
+1 Viner Quartz crystal + 1 Nether quartz + 1 tin ingot + 1 magnetite ingot
 + 1000 mB UV Solution from the tank -> 1 Cleared Silicon.
 100 ticks / 5 seconds at 20 TPS; 4000 E. Fluid consumed at completion.
 Fill the tank with a bucket or compatible pipes, not the item input slots.
 Full output or insufficient UV pauses processing without wasting resources.
-Shared tags: c:ingots/silicon, c:gems/quartz, c:ingots/tin,
-c:ingots/platinum, c:ingots/copper, c:ingots/zinc.
+Shared tags: c:gems/viner_quartz, c:gems/quartz, c:ingots/tin,
+c:ingots/magnetite, c:ingots/copper, c:ingots/zinc.
 UV Solution cannot form infinite sources. Tin still requires no fluid.
 JEI and REI show UV crafting and the fluid requirement for Cleared Silicon.
 
 
-MIXING SMELTER CRAFTING — 0.4.1
+MIXING SMELTER CRAFTING — 0.5.0
 Coal Mixing Smelter, 3x3, produces 1 machine:
 coal block | coal block | coal block
-sheet      | zinc       | diamond
+plate      | zinc       | diamond
 planks     | planks     | planks
-1 propylene sheet, 3 planks, 3 coal blocks, 1 diamond, 1 zinc ingot.
+1 tungsten plate, 3 planks, 3 coal blocks, 1 diamond, 1 zinc ingot.
 
 Electric Mixing Smelter, 3x3, produces 1 machine:
 iron block | iron block | iron block
-sheet      | diamond    | sheet
+plate      | diamond    | plate
 tin        | diamond    | tin
-3 iron blocks, 2 propylene sheets, 2 diamonds, 2 tin ingots.
+3 iron blocks, 2 tungsten plates, 2 diamonds, 2 tin ingots.
 
 Different planks can be mixed. Equivalent materials from other mods are
 accepted through minecraft:planks, c:storage_blocks/coal,
-c:storage_blocks/iron, c:plates/propylene, c:gems/diamond,
-c:ingots/zinc and c:ingots/tin. Sheets also accept c:sheets/propylene.
-Recipes unlock in the recipe book when you obtain a sheet.
+c:storage_blocks/iron, c:plates/tungsten, c:gems/diamond,
+c:ingots/zinc and c:ingots/tin. Plates also accept c:plates/tungsten.
+Recipes unlock in the recipe book when you obtain a plate.
 Both presses have refreshed original pixel textures and corrected panel UVs;
 their processing times remain 5 seconds (coal) and 1 second (electric).
+
+RESERVED MATERIALS / MIGRATION — 0.5.0
+Platinum and silicon ingots remain as separate Creative items for future
+recipes, with no ores or production recipes. Old renamed ore blocks and
+item stacks migrate when loaded. Existing platinum/silicon ingots stay intact.

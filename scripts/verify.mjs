@@ -17,15 +17,27 @@ for(const name of (await readdir(root)).filter(n=>n.endsWith('.html'))){
 const context={window:{}};vm.runInNewContext(await readFile(path.join(root,'data/catalog.js'),'utf8'),context);
 const d=context.window.PROMOD_DATA;
 for(const item of Object.values(d.items))assert((await stat(path.join(root,item.image))).isFile());
-for(const metal of ['platinum','silicon'])assert.equal(JSON.stringify(d.balance[metal].range),'[-6,16]');
+for(const metal of ['magnetite','viner_quartz'])assert.equal(JSON.stringify(d.balance[metal].range),'[-6,16]');
+for(const [ore,product] of Object.entries({zinc:'zinc_ingot',lead:'lead_ingot',chromite:'chromium_ingot',magnetite:'magnetite_ingot',viner_quartz:'viner_quartz',wolframite:'tungsten_ingot'})){
+  assert.equal(d.balance[ore].product,product);assert(d.items[product]);
+  for(const prefix of ['','deepslate_'])for(const method of ['smelting','blasting']){
+    const r=d.recipes[`${product}_from_${method}_${prefix}${ore}_ore`];
+    assert.equal(r.ingredient,`promod-materials:${prefix}${ore}_ore`);
+    assert.equal(r.result.id,`promod-materials:${product}`);
+  }
+}
+for(const old of ['bronze','chromium','platinum','silicon','propylene'])for(const prefix of ['','deepslate_'])assert(!d.items[`${prefix}${old}_ore`]);
+assert(d.items.platinum_ingot&&d.items.silicon_ingot);
+for(const r of Object.values(d.recipes))assert(!JSON.stringify(r).match(/bronze|propylene|ingots\/platinum|ingots\/silicon/));
+assert.equal(d.recipes.tungsten_plate.ingredient,'#c:ingots/tungsten');
 assert.equal(d.recipes.electric_press.pattern.join('/'),'WZW/IPI/DID');
 assert.equal(d.recipes.coal_press.pattern.join('/'),'WBW/C C/DDD');
 assert.equal(d.recipes.tin_ingot.type,'promod-materials:mixing_smelting');
-assert.equal(JSON.stringify(d.recipes.tin_ingot.ingredients),JSON.stringify(['#c:ingots/zinc','#c:ingots/bronze','#c:ingots/copper']));
+assert.equal(JSON.stringify(d.recipes.tin_ingot.ingredients),JSON.stringify(['#c:ingots/zinc','#c:ingots/lead','#c:ingots/copper']));
 assert.equal(d.recipes.tin_ingot.result.id,'promod-materials:tin_ingot');
 assert.equal(d.recipes.tin_ingot.result.count,1);
 assert.equal(d.recipes.cleared_silicon.type,'promod-materials:mixing_smelting');
-assert.equal(JSON.stringify(d.recipes.cleared_silicon.ingredients),JSON.stringify(['#c:ingots/silicon','#c:gems/quartz','#c:ingots/tin','#c:ingots/platinum']));
+assert.equal(JSON.stringify(d.recipes.cleared_silicon.ingredients),JSON.stringify(['#c:gems/viner_quartz','#c:gems/quartz','#c:ingots/tin','#c:ingots/magnetite']));
 assert.equal(d.recipes.cleared_silicon.fluid,'promod-materials:uv_solution');
 assert.equal(d.recipes.cleared_silicon.fluid_amount,1000);
 assert.equal(d.recipes.cleared_silicon.result.id,'promod-materials:cleared_silicon');
@@ -34,7 +46,7 @@ assert.equal(d.recipes.uv_solution_bucket.type,'promod-materials:uv_solution');
 assert.equal(JSON.stringify(d.recipes.uv_solution_bucket.ingredients),JSON.stringify(['minecraft:milk_bucket','minecraft:water_bucket','#c:ingots/copper','#c:ingots/zinc']));
 assert.equal(d.recipes.uv_solution_bucket.result.id,'promod-materials:uv_solution_bucket');
 assert.equal(d.recipes.uv_solution_bucket.result.count,1);
-for(const [id,expected] of Object.entries({coal_mixing_smelter:{'#c:storage_blocks/coal':3,'#c:plates/propylene':1,'#c:ingots/zinc':1,'#c:gems/diamond':1,'#minecraft:planks':3},electric_mixing_smelter:{'#c:storage_blocks/iron':3,'#c:plates/propylene':2,'#c:gems/diamond':2,'#c:ingots/tin':2}})){
+for(const [id,expected] of Object.entries({coal_mixing_smelter:{'#c:storage_blocks/coal':3,'#c:plates/tungsten':1,'#c:ingots/zinc':1,'#c:gems/diamond':1,'#minecraft:planks':3},electric_mixing_smelter:{'#c:storage_blocks/iron':3,'#c:plates/tungsten':2,'#c:gems/diamond':2,'#c:ingots/tin':2}})){
   const r=d.recipes[id],counts={};assert.equal(r.type,'minecraft:crafting_shaped');
   for(const symbol of r.pattern.join(''))if(symbol!==' ')counts[r.key[symbol]]=(counts[r.key[symbol]]||0)+1;
   assert.deepEqual(counts,expected,id+' exact ingredients');

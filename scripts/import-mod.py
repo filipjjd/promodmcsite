@@ -4,8 +4,10 @@ import sys,json,re,base64,hashlib,shutil,zipfile
 root=Path(sys.argv[1]);out=Path(__file__).resolve().parents[1]/'public'
 guide=(root/'GOTOWY MOD/PROMOD - CRAFTINGI.html').read_text(encoding='utf-8')
 data=json.loads(re.search(r'<script id="guide-data" type="application/json">(.*?)</script>',guide,re.S).group(1))
-names={'zinc':'Zinc','bronze':'Bronze','chromium':'Chromium','platinum':'Platinum','silicon':'Silicon','propylene':'Propylene','tin':'Tin'}
-extra={'diamond':'Diamond','iron_block':'Block of iron','cleared_silicon':'Cleared Silicon','uv_solution_bucket':'UV Solution bucket','quartz':'Nether quartz','milk_bucket':'Milk bucket','water_bucket':'Water bucket','bucket':'Empty bucket','coal_mixing_smelter':'Coal mixing smelter','electric_mixing_smelter':'Electric mixing smelter','copper_wire':'Copper wire','propylene_sheet':'Propylene sheet','electric_press':'Electric press','coal_press':'Coal press','copper_ingot':'Copper ingot','iron_ingot':'Iron ingot','shears':'Shears','oak_planks':'Any planks','coal_block':'Block of coal','coal':'Coal'}
+names={'zinc':'Zinc','lead':'Lead','chromite':'Chromite','chromium':'Chromium','magnetite':'Magnetite','viner_quartz':'Viner Quartz','wolframite':'Wolframite','tungsten':'Tungsten','platinum':'Platinum','silicon':'Silicon','tin':'Tin'}
+extra={'diamond':'Diamond','iron_block':'Block of iron','cleared_silicon':'Cleared Silicon','uv_solution_bucket':'UV Solution bucket','quartz':'Nether quartz','milk_bucket':'Milk bucket','water_bucket':'Water bucket','bucket':'Empty bucket','coal_mixing_smelter':'Coal mixing smelter','electric_mixing_smelter':'Electric mixing smelter','copper_wire':'Copper wire','tungsten_plate':'Tungsten plate','viner_quartz':'Viner Quartz','electric_press':'Electric press','coal_press':'Coal press','copper_ingot':'Copper ingot','iron_ingot':'Iron ingot','shears':'Shears','oak_planks':'Any planks','coal_block':'Block of coal','coal':'Coal'}
+for obsolete in ['bronze_ingot','propylene_ingot','propylene_sheet']+[p+m+'_ore' for m in ['bronze','chromium','platinum','silicon','propylene'] for p in ['', 'deepslate_']]:
+    (out/'assets/items'/(obsolete+'.png')).unlink(missing_ok=True)
 (out/'assets/items').mkdir(parents=True,exist_ok=True)
 for key,item in data['items'].items():
     ext='svg' if item['image'].startswith('data:image/svg+xml') else 'png'
@@ -16,13 +18,13 @@ for key,item in data['items'].items():
         metal=next(m for m in names if m in key)
         name=('Deepslate ' if key.startswith('deepslate_') else '')+names[metal]+(' ore' if key.endswith('_ore') else ' ingot')
     item.update(name=name,image=path)
-rarities={'zinc':'Common','bronze':'Common','propylene':'Gold-like rarity','platinum':'Rare, shallow deposits','silicon':'Rare, shallow deposits','chromium':'Rarest'}
-best={'zinc':'16 to 48','bronze':'0 to 32','propylene':'−56 to −40','platinum':'0 to 10','silicon':'0 to 10','chromium':'−59 to −54'}
-for key,b in data['balance'].items():b.update(name=names[key],rarity=rarities[key],best=best[key],tool='Iron' if key in ['chromium','platinum'] else 'Stone')
+rarities={'zinc':'Common','lead':'Common','wolframite':'Gold-like rarity','magnetite':'Rare, shallow deposits','viner_quartz':'Rare, shallow deposits','chromite':'Rarest'}
+best={'zinc':'16 to 48','lead':'0 to 32','wolframite':'−56 to −40','magnetite':'0 to 10','viner_quartz':'0 to 10','chromite':'−59 to −54'}
+for key,b in data['balance'].items():b.update(name=names[key],rarity=rarities[key],best=best[key],tool='Iron' if key in ['chromite','magnetite'] else 'Stone')
 data.pop('shots',None)
 (out/'data/catalog.js').write_text('window.PROMOD_DATA = '+json.dumps(data,ensure_ascii=False)+';\n',encoding='utf-8')
 releases=[]
-for name,version in [('promod-protel','1.2.2'),('promod-materials','0.4.1')]:
+for name,version in [('promod-protel','1.2.2'),('promod-materials','0.5.0')]:
     source=root/'GOTOWY MOD'/f'{name}-{version}.jar'
     with zipfile.ZipFile(source) as jar: assert json.loads(jar.read('fabric.mod.json'))['version']==version
     target=out/'downloads'/source.name;shutil.copy2(source,target)

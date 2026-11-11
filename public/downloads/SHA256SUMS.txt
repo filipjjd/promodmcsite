@@ -1,2 +1,2 @@
 1643b0953ce0488966ef0ab94eac0fbfb19de1aca02b9bb96b4b82879d48025e  promod-protel-1.2.2.jar
-50d5430e696e826505f6f6d39bf0de1c4b67a4a1c6432172328bd411792e15b5  promod-materials-0.4.1.jar
+bbbf94755ec221bff46b72ed557c25db4aba7a8779c4985fca29fe10aeefff5b  promod-materials-0.5.0.jar
