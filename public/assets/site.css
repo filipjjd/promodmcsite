@@ -5,3 +5,25 @@
 
 /* Detailed machine previews stay readable without pushing specifications off-screen. */
 .recipe-stage>img.machine{width:260px;max-width:100%;height:240px;object-fit:contain}.recipe-art img.machine{width:125px;height:126px}
+
+/* Materials overview: model-led product story and practical production details. */
+.materials-hero{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:60px;padding:70px 0 55px}
+.materials-intro h1{font-size:clamp(40px,4.6vw,62px);font-weight:600;line-height:1.04;letter-spacing:-2.8px;margin:20px 0 25px}
+.materials-intro>p:not(.lede){font-size:14px;color:var(--muted);max-width:520px}
+.materials-intro .actions{margin-top:26px}.materials-intro .materials-requirements{font-size:11px;margin-top:24px;line-height:1.9}
+.workshop-showcase{margin:0;padding:28px;background:#efefef;border:1px solid var(--line);border-radius:14px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.workshop-showcase>div{text-align:center;min-width:0}.workshop-showcase img{display:block;width:100%;height:175px;object-fit:contain;margin-bottom:8px}
+.workshop-showcase span{font-size:11px;color:#555}.workshop-showcase figcaption{grid-column:1/-1;font-size:10px;color:#777;border-top:1px solid #d6d6d6;padding-top:15px}
+.material-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-top:1px solid var(--line);padding:27px 0}
+.material-facts strong{display:block;font-size:32px;font-weight:550;letter-spacing:-1px}.material-facts span{font-size:12px;color:var(--muted)}
+.materials-jumps{display:flex;gap:14px 28px;flex-wrap:wrap;padding:20px 0 30px;font-size:12px}.materials-jumps a{border-bottom:1px solid #bbb;padding:5px 0}.materials-jumps a:hover{border-color:#111}
+.section-lede{max-width:760px;color:var(--muted);margin-bottom:30px}
+.mineral-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:30px 0}
+.mineral-card{padding:25px;border:1px solid var(--line);border-radius:10px;background:white}.mineral-art{display:flex;gap:18px;align-items:center;margin-bottom:24px}.mineral-art img{width:48px;height:48px;image-rendering:pixelated;object-fit:contain}.mineral-art span{font-size:20px;color:#888}
+.mineral-card h3{font-size:22px;margin-bottom:6px}.mineral-card p{font-size:13px;color:var(--muted)}.mineral-card .mineral-output{font-size:11px;color:#444;margin:0 0 14px}.mineral-card .mineral-range{display:block;border-top:1px solid var(--line);margin-top:18px;padding-top:12px;font-size:11px;color:#666}
+.machine-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.machine-detail{display:grid;grid-template-columns:110px minmax(0,1fr);gap:22px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px}.machine-detail>img{width:110px;height:160px;object-fit:contain}.machine-detail h3{font-size:23px;margin:10px 0}.machine-detail p{font-size:13px;color:var(--muted)}.machine-detail dl{margin:20px 0}.machine-detail dl div{border-top:1px solid #eee;padding:9px 0}.machine-detail dt{font-size:10px;color:#777}.machine-detail dd{font-size:12px;margin:3px 0 0}
+.production-list{display:grid;grid-template-columns:1fr 1fr;gap:0 45px}.production-list article{display:grid;grid-template-columns:54px 1fr;gap:22px;border-top:1px solid var(--line);padding:25px 0}.production-list article:last-child{grid-column:1/-1;max-width:850px}.production-list img{width:54px;height:54px;object-fit:contain;image-rendering:pixelated}.production-list h3{font-size:21px}.production-list p{font-size:14px;color:var(--muted)}.production-list strong{font-weight:550;color:#222}
+.workshop-steps{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:30px 50px;margin:35px 0}.workshop-steps li{display:grid;grid-template-columns:45px 1fr;gap:20px;border-top:1px solid var(--line);padding-top:22px}.workshop-steps li>span{font-size:24px;color:#999;letter-spacing:-1px}.workshop-steps h3{font-size:21px}.workshop-steps p{font-size:14px;color:var(--muted)}
+#development .actions{margin-top:30px}
+@media(max-width:1000px){.materials-hero{gap:30px}.workshop-showcase{padding:20px;gap:15px}.workshop-showcase img{height:140px}.machine-detail{grid-template-columns:80px minmax(0,1fr);gap:15px;padding:22px}.machine-detail>img{width:80px;height:120px}}
+@media(max-width:700px){.nav{flex-wrap:wrap;justify-content:flex-start;gap:5px 19px}.nav .nav-download{margin-left:auto}.materials-hero{grid-template-columns:1fr;padding:42px 0 30px;gap:30px}.materials-intro h1{font-size:43px;letter-spacing:-2px}.workshop-showcase img{height:150px}.material-facts{grid-template-columns:1fr 1fr;gap:22px;padding:22px 0}.material-facts strong{font-size:28px}.materials-jumps{gap:8px 20px}.mineral-grid,.machine-detail-grid,.production-list,.workshop-steps{grid-template-columns:1fr}.mineral-card{padding:22px}.mineral-art{margin-bottom:15px}.machine-detail{grid-template-columns:85px minmax(0,1fr);padding:20px;gap:17px}.machine-detail>img{width:85px;height:120px}.machine-detail h3{font-size:21px}.production-list article:last-child{grid-column:auto}.production-list article{gap:18px}.workshop-steps{gap:20px}.workshop-steps li{grid-template-columns:34px 1fr;gap:16px}}

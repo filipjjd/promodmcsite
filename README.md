@@ -32,6 +32,7 @@ Preview: http://127.0.0.1:8767. Set `PORT` to change it.
 ## Updating content
 
 - Edit `scripts/build-pages.py` for page copy and page layouts, then run it with Python 3.
+- The Materials overview lives in `scripts/materials-page.html`; its version, mineral outputs and Y ranges come from the release manifest and catalog.
 - Edit `public/assets/site.css` and `public/assets/site.js` for styling and recipe interactions.
 - To import a new tested ProMod release, first update versions in `scripts/import-mod.py`.
   Generate the local ProMod crafting guide and package the JARs, then run:
