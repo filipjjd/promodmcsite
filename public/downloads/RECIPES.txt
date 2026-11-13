@@ -1,4 +1,4 @@
-PRO MOD MATERIALS 0.5.0 — RECIPE REFERENCE
+PRO MOD MATERIALS 0.5.1 — RECIPE REFERENCE
 Minecraft Java 1.21.11 / Fabric
 
 COPPER WIRE (shapeless, 2x2 or 3x3)
@@ -115,3 +115,8 @@ RESERVED MATERIALS / MIGRATION — 0.5.0
 Platinum and silicon ingots remain as separate Creative items for future
 recipes, with no ores or production recipes. Old renamed ore blocks and
 item stacks migrate when loaded. Existing platinum/silicon ingots stay intact.
+
+MACHINE GEOMETRY — 0.5.1
+Updated textures, clean exterior faces and matching selection/collision shapes
+for all orientations and running states. Adjacent machines do not overlap.
+All recipes and processing times above are unchanged.

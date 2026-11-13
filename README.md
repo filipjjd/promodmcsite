@@ -49,7 +49,7 @@ checks embedded JAR versions, and creates the download manifest and SHA-256 chec
 ## Current downloads
 
 - ProTel 1.2.2 — internal ID `modtel` is preserved for existing saves.
-- Materials 0.5.0 — zinc, lead, chromite, magnetite, Viner Quartz and wolframite. Coal pressing takes **5 seconds**; electric pressing takes **1 second**, 800 E per tungsten plate. Magnetite and Viner Quartz remain at **Y=-6 through Y=16**.
+- Materials 0.5.1 — zinc, lead, chromite, magnetite, Viner Quartz and wolframite. Coal pressing takes **5 seconds**; electric pressing takes **1 second**, 800 E per tungsten plate. Magnetite and Viner Quartz remain at **Y=-6 through Y=16**.
 - Minecraft Java 1.21.11, Fabric, Java 21. Fabric API is a separate requirement.
 
 Both mods are required on the server and clients when used in multiplayer.
@@ -71,3 +71,5 @@ Materials 0.4.0 adds Cleared Silicon and UV Solution. Electric mixing consumes f
 Materials 0.4.1 adds both 3×3 Mixing Smelter craftings, common tags for blocks/diamonds/sheets, and refreshed press pixel textures with corrected UVs. Machine website previews come from the actual model assets.
 
 Materials 0.5.0 replaces the mineral lineup, adds distinct pixel textures and tungsten plates, and updates every active recipe. Platinum and silicon ingots remain reserved for future recipes. Old renamed block palettes and item stacks migrate through Fabric registry aliases. Ore height and rarity profiles are preserved. The catalog explicitly maps each ore to its product, including the Viner Quartz crystal.
+
+Materials 0.5.1 refreshes all four machine textures and removes internal/coplanar model faces. Collision and selection shapes are generated from the same solid as the model, cached in all four orientations and both lit states. The release includes native geometry, raycast and adjacency checks; recipe behavior is unchanged.
